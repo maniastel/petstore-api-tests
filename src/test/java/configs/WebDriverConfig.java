@@ -5,7 +5,7 @@ import org.aeonbits.owner.Config;
 import java.net.URL;
 
 
-@Config.Sources("classpath:${env}.properties")
+@Config.Sources("classpath:${host}.properties")
 public interface WebDriverConfig extends Config {
 
     @Key("base.url")
