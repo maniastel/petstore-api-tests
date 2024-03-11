@@ -72,7 +72,6 @@ ____
 
 ### **Параметры сборки в Jenkins:**
 
-- *host (удаленный или локальный запуск, по умолчанию  remote)*
 - *task (выбор группы тестов для запуска, по умолчанию все - test)*
 
 <a id="console"></a>
@@ -85,8 +84,7 @@ gradle clean test
 
 ***Удалённый запуск через Jenkins:***
 ```bash  
-clean ${TASK} 
--Dhost=${HOST}
+clean ${TASK}
 ```
 ___
 <a id="allure"></a>
