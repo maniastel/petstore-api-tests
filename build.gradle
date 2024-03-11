@@ -82,6 +82,12 @@ task smoke (type: Test) {
     }
 }
 
+task low (type: Test) {
+    useJUnitPlatform {
+        includeTags("low")
+    }
+}
+
 task positive (type: Test) {
     useJUnitPlatform {
         includeTags("positive")

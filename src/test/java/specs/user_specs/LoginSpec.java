@@ -1,4 +1,4 @@
-package specs.StoreSpecs;
+package specs.user_specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -10,22 +10,16 @@ import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 
-public class GetOrderSpec {
-    public static RequestSpecification getOrderRequestSpec = with()
+public class LoginSpec {
+    public static RequestSpecification loginRequestSpec = with()
             .filter(withCustomTemplates())
             .log().uri()
             .log().headers()
             .contentType(JSON)
-            .basePath("/v2/store/order/{orderId}");
+            .basePath("/v2/user/login");
 
-    public static ResponseSpecification getOrderResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification loginResponseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)
-            .log(STATUS)
-            .log(BODY)
-            .build();
-
-    public static ResponseSpecification getOrder404ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(404)
             .log(STATUS)
             .log(BODY)
             .build();

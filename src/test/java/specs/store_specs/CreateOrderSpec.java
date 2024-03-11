@@ -1,4 +1,4 @@
-package specs.UserSpecs;
+package specs.store_specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -10,23 +10,19 @@ import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 
-public class DeleteUserSpec {
-    public static RequestSpecification deleteUserRequestSpec = with()
+public class CreateOrderSpec {
+    public static RequestSpecification createOrderRequestSpec = with()
             .filter(withCustomTemplates())
             .log().uri()
+            .log().body()
             .log().headers()
             .contentType(JSON)
-            .basePath("/v2/user/{username}");
+            .basePath("/v2/store/order");
 
-    public static ResponseSpecification deleteUserResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification createOrderResponseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)
             .log(STATUS)
             .log(BODY)
             .build();
 
-    public static ResponseSpecification deleteUser404ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(404)
-            .log(STATUS)
-            .log(BODY)
-            .build();
 }

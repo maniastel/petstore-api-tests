@@ -1,11 +1,9 @@
 package tests;
 
-import configs.UserDataConfig;
-import models.UserModels.LoginRequestModel;
-import models.UserModels.UserDataModel;
-import models.UserModels.UserInfoResponseModel;
-import models.UserModels.UserResponseModel;
-import org.aeonbits.owner.ConfigFactory;
+import data.TestUserData;
+import models.user_models.LoginRequestModel;
+import models.user_models.UserDataModel;
+import models.user_models.UserResponseModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -14,33 +12,33 @@ import org.junit.jupiter.api.Test;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-import static specs.UserSpecs.CreateUserSpec.*;
-import static specs.UserSpecs.DeleteUserSpec.*;
-import static specs.UserSpecs.GetUserSpec.*;
-import static specs.UserSpecs.LoginSpec.loginRequestSpec;
-import static specs.UserSpecs.LoginSpec.loginResponseSpec;
-import static specs.UserSpecs.UpdateUserSpec.updateUserRequestSpec;
-import static specs.UserSpecs.UpdateUserSpec.updateUserResponseSpec;
+import static specs.user_specs.CreateUserSpec.*;
+import static specs.user_specs.DeleteUserSpec.*;
+import static specs.user_specs.GetUserSpec.*;
+import static specs.user_specs.LoginSpec.loginRequestSpec;
+import static specs.user_specs.LoginSpec.loginResponseSpec;
+import static specs.user_specs.UpdateUserSpec.updateUserRequestSpec;
+import static specs.user_specs.UpdateUserSpec.updateUserResponseSpec;
 
 @DisplayName("Тесты для проверки запросов /user")
 @Tag("user_tests")
 public class UserTests extends TestBase {
     UserDataModel userData = new UserDataModel();
     LoginRequestModel login = new LoginRequestModel();
-    UserDataConfig user = ConfigFactory.create(UserDataConfig.class, System.getProperties());
+    TestUserData user = new TestUserData();
 
     @BeforeEach
     @DisplayName("Успешная регистрация нового пользователя")
     void successfulCreateUserTest () {
 
-        userData.setId(user.setId());
-        userData.setUsername(user.setUsername());
-        userData.setFirstName(user.setFirstName());
-        userData.setLastName(user.setLastName());
-        userData.setEmail(user.setEmail());
-        userData.setPhone(user.setPhone());
-        userData.setPassword(user.setPassword());
-        userData.setUserStatus(user.setUserStatus());
+        userData.setId(user.id);
+        userData.setUsername(user.username);
+        userData.setFirstName(user.firstName);
+        userData.setLastName(user.lastName);
+        userData.setEmail(user.email);
+        userData.setPhone(user.phone);
+        userData.setPassword(user.password);
+        userData.setUserStatus(user.userStatus);
 
         UserResponseModel response = step("Send request", () ->
                 given(createUserRequestSpec)
@@ -84,24 +82,24 @@ public class UserTests extends TestBase {
     @Tag("smoke")
     @DisplayName("Получение данных зарегистрованного пользователя")
     void getUserDataTest () {
-        UserInfoResponseModel response = step("Send request", () ->
+        UserDataModel response = step("Send request", () ->
                 given(getUserRequestSpec)
-                        .pathParam("username",user.setUsername())
+                        .pathParam("username",user.username)
                         .when()
                         .get()
                         .then()
                         .spec(getUserResponseSpec)
-                        .extract().as(UserInfoResponseModel.class));
+                        .extract().as(UserDataModel.class));
 
         step("Check response", () -> {
-            assertEquals(user.setUsername(), response.getUsername());
-            assertEquals(user.setId(), response.getId());
-            assertEquals(user.setFirstName(), response.getFirstName());
-            assertEquals(user.setLastName(), response.getLastName());
-            assertEquals(user.setEmail(), response.getEmail());
-            assertEquals(user.setPassword(), response.getPassword());
-            assertEquals(user.setPhone(), response.getPhone());
-            assertEquals(user.setUserStatus(), response.getUserStatus());
+            assertEquals(user.username, response.getUsername());
+            assertEquals(user.id, response.getId());
+            assertEquals(user.firstName, response.getFirstName());
+            assertEquals(user.lastName, response.getLastName());
+            assertEquals(user.email, response.getEmail());
+            assertEquals(user.password, response.getPassword());
+            assertEquals(user.phone, response.getPhone());
+            assertEquals(user.userStatus, response.getUserStatus());
         });
     }
 
@@ -134,14 +132,14 @@ public class UserTests extends TestBase {
     @DisplayName("Обновление данных пользователя")
     void updateUserDataTest () {
 
-        userData.setId(user.setId());
-        userData.setUsername(user.setUsername());
-        userData.setFirstName(user.setFirstName());
-        userData.setLastName(user.setLastName());
+        userData.setId(user.id);
+        userData.setUsername(user.username);
+        userData.setFirstName(user.firstName);
+        userData.setLastName(user.lastName);
         userData.setEmail("storm@test.com");
         userData.setPhone("79865643212");
-        userData.setPassword(user.setPassword());
-        userData.setUserStatus(user.setUserStatus());
+        userData.setPassword(user.password);
+        userData.setUserStatus(user.userStatus);
 
         UserResponseModel response = step("Send request", () ->
                 given(updateUserRequestSpec)
@@ -165,8 +163,8 @@ public class UserTests extends TestBase {
     @Tag("smoke")
     @DisplayName("Успешная авторизация пользователя")
     void successfulLoginTest() {
-        login.setUsername(user.setUsername());
-        login.setPassword(user.setPassword());
+        login.setUsername(user.username);
+        login.setPassword(user.password);
 
         UserResponseModel response = step("Send request", () ->
                 given(loginRequestSpec)

@@ -1,4 +1,4 @@
-package models.StoreModels;
+package models.store_models;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package specs.UserSpecs;
+package specs.user_specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -10,22 +10,17 @@ import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 
-public class GetUserSpec {
-    public static RequestSpecification getUserRequestSpec = with()
+public class UpdateUserSpec {
+    public static RequestSpecification updateUserRequestSpec = with()
             .filter(withCustomTemplates())
             .log().uri()
+            .log().body()
             .log().headers()
             .contentType(JSON)
             .basePath("/v2/user/{username}");
 
-    public static ResponseSpecification getUserResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification updateUserResponseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)
-            .log(STATUS)
-            .log(BODY)
-            .build();
-
-    public static ResponseSpecification getUser404ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(404)
             .log(STATUS)
             .log(BODY)
             .build();

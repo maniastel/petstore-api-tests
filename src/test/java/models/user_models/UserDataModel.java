@@ -1,9 +1,9 @@
-package models.UserModels;
+package models.user_models;
 
 import lombok.Data;
 
 @Data
-public class UserInfoResponseModel {
+public class UserDataModel {
     String id;
     String username;
     String firstName;
